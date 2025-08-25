@@ -8,14 +8,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <style>
     body { font-family:'Segoe UI', Tahoma, sans-serif; margin:0; background:#f0e4d7; }
-    /* Carga */
-    #loadingScreen { position:fixed; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background: linear-gradient(135deg,#a1c4fd,#c2e9fb); color:#fff; z-index:9999; }
+
+    /* Pantalla de carga */
+    #loadingScreen {
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      background: linear-gradient(135deg,#a1c4fd,#c2e9fb); color:#fff; z-index:9999;
+    }
     #progressBar { width:70%; height:25px; background:rgba(255,255,255,0.3); border-radius:12px; overflow:hidden; margin-top:20px; box-shadow:0 4px 8px rgba(0,0,0,0.2); }
     #progress { width:0%; height:100%; border-radius:12px; background: linear-gradient(90deg,#198754,#43a047,#66bb6a); animation: moveGradient 2s linear infinite; }
     @keyframes moveGradient { 0% { background-position:0% 50%; } 100% { background-position:100% 50%; } }
 
     /* Bienvenida */
-    .welcome-screen { display:none; flex-direction:column; justify-content:center; align-items:center; height:100vh; text-align:center; background: linear-gradient(135deg,#a1c4fd,#c2e9fb); color:#ff6f61; animation: fadeIn 1s ease-in-out; padding:20px; }
+    .welcome-screen { display:none; flex-direction:column; justify-content:center; align-items:center; height:100vh; text-align:center; background: linear-gradient(135deg,#a1c4fd,#c2e9fb); color:#00695c; animation: fadeIn 1s ease-in-out; padding:20px; }
     .welcome-screen h1 { font-family:'Dancing Script', cursive; font-size:2rem; margin-bottom:30px; animation: zoomIn 1s ease-in-out; }
     .welcome-screen button { font-size:1.2rem; padding:10px 20px; border:none; border-radius:8px; background-color:#198754; color:#fff; cursor:pointer; transition: transform 0.3s; }
     .welcome-screen button:hover { transform: scale(1.1); }
@@ -41,7 +46,7 @@
   </div>
 
   <div class="welcome-screen" id="welcomeScreen">
-    <h1>¡Bienvenido a Mendoza! Sumérgete en paisajes, bodegas, montañas y actividades únicas. Explorá experiencias inolvidables y llevate recuerdos que durarán para siempre.</h1>
+    <h1>¡Bienvenido a Mendoza! Explorá sus paisajes y bodegas.</h1>
     <button onclick="enterSite()">Descubrir Mendoza</button>
   </div>
 
@@ -56,7 +61,6 @@
   </div>
 
   <script>
-    // Barra de carga
     let progress=0;
     const progressBar=document.getElementById('progress');
     const loadingScreen=document.getElementById('loadingScreen');
@@ -85,7 +89,6 @@
       {nombre:'Bodegas Maipú/Luján', img:'imagenes/potre1.png', maps:'https://www.google.com/maps/place/Bodegas+Maipú,+Mendoza,+Argentina', restaurantes:['Bodega Familia Zuccardi','La Azul Restaurante'], negocios:['Bodega Trapiche','Bodega Norton','Tienda de Vinos','Tour Gastronómico'], atracciones:['Visita Bodegas','Degustación de Vinos'], actividades:[{nombre:'Wine Experience',telefono:'+54 261 555666 (Sofía)'},{nombre:'Tour Gastronómico',telefono:'+54 261 444666 (Marcos)'}], referencias:['Emergencias: +54 261 100']}
     ];
 
-    // Paginación
     const placesContainer=document.getElementById('places');
     const prevBtn=document.getElementById('prevBtn');
     const nextBtn=document.getElementById('nextBtn');
