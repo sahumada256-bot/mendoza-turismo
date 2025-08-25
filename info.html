@@ -15,24 +15,81 @@
       display:flex; flex-direction:column; justify-content:center; align-items:center;
       background: linear-gradient(135deg,#a1c4fd,#c2e9fb); color:#fff; z-index:9999;
     }
-    #progressBar { width:70%; height:25px; background:rgba(255,255,255,0.3); border-radius:12px; overflow:hidden; margin-top:20px; box-shadow:0 4px 8px rgba(0,0,0,0.2); }
-    #progress { width:0%; height:100%; border-radius:12px; background: linear-gradient(90deg,#198754,#43a047,#66bb6a); animation: moveGradient 2s linear infinite; }
-    @keyframes moveGradient { 0% { background-position:0% 50%; } 100% { background-position:100% 50%; } }
+    #progressBar {
+      width:70%; 
+      height:25px; 
+      background:rgba(255,255,255,0.3); 
+      border-radius:12px; 
+      overflow:hidden; 
+      margin-top:20px; 
+      box-shadow:0 4px 8px rgba(0,0,0,0.2);
+    }
+    #progress {
+      width:0%; 
+      height:100%; 
+      border-radius:12px;
+      transition: width 0.1s linear;
+    }
+    #progressText { 
+      text-align:center; 
+      margin-top:8px; 
+      font-weight:bold; 
+      color:#00695c;
+    }
 
-    /* Bienvenida */
-    .welcome-screen { display:none; flex-direction:column; justify-content:center; align-items:center; height:100vh; text-align:center; background: linear-gradient(135deg,#a1c4fd,#c2e9fb); color:#00695c; animation: fadeIn 1s ease-in-out; padding:20px; }
-    .welcome-screen h1 { font-family:'Dancing Script', cursive; font-size:2rem; margin-bottom:30px; animation: zoomIn 1s ease-in-out; }
-    .welcome-screen button { font-size:1.2rem; padding:10px 20px; border:none; border-radius:8px; background-color:#198754; color:#fff; cursor:pointer; transition: transform 0.3s; }
-    .welcome-screen button:hover { transform: scale(1.1); }
+    /* Bienvenida mejorada */
+    .welcome-screen { 
+      display:none; 
+      flex-direction:column; 
+      justify-content:center; 
+      align-items:center; 
+      height:100vh; 
+      text-align:center; 
+      background: linear-gradient(135deg,#a1c4fd,#c2e9fb); 
+      color:#00695c; 
+      animation: fadeIn 1.2s ease-in-out; 
+      padding:20px; 
+    }
+
+    .welcome-screen h1 { 
+      font-family:'Dancing Script', cursive; 
+      font-size:2.5rem; 
+      margin-bottom:40px; 
+      animation: bounceIn 1.5s ease forwards; 
+    }
+
+    .welcome-screen button { 
+      font-size:1.3rem; 
+      padding:12px 28px; 
+      border:none; 
+      border-radius:10px; 
+      background-color:#198754; 
+      color:#fff; 
+      cursor:pointer; 
+      transition: transform 0.3s, box-shadow 0.3s; 
+      margin-top:30px;
+    }
+
+    .welcome-screen button:hover { 
+      transform: scale(1.1); 
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
     @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
-    @keyframes zoomIn { from{transform:scale(0.8);} to{transform:scale(1);} }
+    @keyframes bounceIn {
+      0% { transform: translateY(-200px); opacity:0; }
+      60% { transform: translateY(30px); opacity:1; }
+      80% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
 
     /* Contenido */
     .info-section { display:none; padding:20px; }
     .fixed-title { text-align:center; color:#00796b; font-size:2rem; margin-bottom:20px; }
     .place-card { margin-bottom:20px; box-shadow:0 4px 12px rgba(0,0,0,0.15); border-radius:10px; overflow:hidden; transition: transform 0.3s, box-shadow 0.3s; }
     .place-card:hover { transform:translateY(-5px); box-shadow:0 10px 25px rgba(0,0,0,0.3); }
-    .place-card img { width:100%; height:250px; object-fit:cover; border-radius:10px 10px 0 0; }
+    .place-card img { width:100%; height:250px; object-fit:cover; border-radius:10px 10px 0 0; transition: transform 0.5s; }
+    .place-card img:hover { transform: scale(1.05); }
     .card-body { background:#fff; }
 
     /* Card Emergencias con efecto moderno */
@@ -54,6 +111,7 @@
   <div id="loadingScreen">
     <h2>Cargando Mendoza...</h2>
     <div id="progressBar"><div id="progress"></div></div>
+    <div id="progressText">0%</div>
   </div>
 
   <div class="welcome-screen" id="welcomeScreen">
@@ -77,27 +135,40 @@
     <div class="emergency-card">
       <h4>Teléfonos de Emergencia</h4>
       <p><strong>Policía de Mendoza:</strong> 911</p>
-      <p><strong>Terminal de Mendoza:</strong> +54 261 XXXX</p>
-      <p><strong>Aeropuerto:</strong> +54 261 XXXX</p>
-      <p><strong>Mecánicos / Gomerías:</strong> Buscar locales cercanos</p>
+      <p><strong>ECI Emergencia:</strong></p>
+      <p>Dirección: 9 de Julio 1936, M5500 AMH, Mendoza</p>
+      <p>Áreas de servicio: Godoy Cruz y áreas cercanas</p>
+      <p>Teléfono: 0261 441-3441</p>
     </div>
   </div>
 
   <script>
-    // Pantalla de carga
-    let progress=0;
-    const progressBar=document.getElementById('progress');
-    const loadingScreen=document.getElementById('loadingScreen');
-    const welcomeScreen=document.getElementById('welcomeScreen');
-    const loadingInterval=setInterval(()=>{
-      progress+=2;
-      progressBar.style.width=progress+'%';
-      if(progress>=100){
-        clearInterval(loadingInterval);
-        loadingScreen.style.display='none';
-        welcomeScreen.style.display='flex';
+    // Pantalla de carga con porcentaje debajo y cambio de color
+    let progress = 0;
+    const progressBar = document.getElementById('progress');
+    const progressText = document.getElementById('progressText');
+    const loadingScreen = document.getElementById('loadingScreen');
+    const welcomeScreen = document.getElementById('welcomeScreen');
+
+    const loadingInterval = setInterval(() => {
+      progress += 2;
+      progressBar.style.width = progress + '%';
+      progressText.textContent = progress + '%';
+
+      if(progress < 50){
+        progressBar.style.background = 'linear-gradient(90deg,#f44336,#ff9800)';
+      } else if(progress < 80){
+        progressBar.style.background = 'linear-gradient(90deg,#ffeb3b,#ffc107)';
+      } else {
+        progressBar.style.background = 'linear-gradient(90deg,#4caf50,#66bb6a)';
       }
-    },60);
+
+      if(progress >= 100){
+        clearInterval(loadingInterval);
+        loadingScreen.style.display = 'none';
+        welcomeScreen.style.display = 'flex';
+      }
+    }, 60);
 
     // Entrar al sitio
     function enterSite(){
@@ -109,7 +180,7 @@
       },500);
     }
 
-    // Lugares turísticos con mapas y más actividades
+    // Lugares turísticos
     const lugares=[
       {nombre:'Cacheuta', img:'cacheuta.png', maps:'https://goo.gl/maps/7t5D8qZQxQ42', restaurantes:['Restaurante Termas Cacheuta','Parrilla El Mirador'], negocios:['Artesanías Cacheuta','Mini Mercado Cacheuta','Spa Termal','Alquiler de Bicicletas'], atracciones:['Termas de Cacheuta','Puente Colgante'], actividades:['Rafting Mendoza','Cabalgatas Andes','Senderismo','Paseos en cuatriciclo']},
       {nombre:'Penitentes', img:'penitentes.png', maps:'https://goo.gl/maps/fPbfNz3UBtT2', restaurantes:['Restaurante Los Penitentes','La Cumbre'], negocios:['Alquiler de Ski','Souvenirs Andes','Mini Mercado','Refugio de Montaña'], atracciones:['Centro de Ski Penitentes'], actividades:['Ski Adventure','Snowboard Tour','Caminatas en la nieve','Teleférico panorámico']},
