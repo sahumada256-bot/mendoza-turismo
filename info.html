@@ -31,9 +31,20 @@
     .info-section { display:none; padding:20px; }
     .fixed-title { text-align:center; color:#00796b; font-size:2rem; margin-bottom:20px; }
     .place-card { margin-bottom:20px; box-shadow:0 4px 12px rgba(0,0,0,0.15); border-radius:10px; overflow:hidden; transition: transform 0.3s, box-shadow 0.3s; }
-    .place-card:hover { transform:translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,0.2); }
+    .place-card:hover { transform:translateY(-5px); box-shadow:0 10px 25px rgba(0,0,0,0.3); }
     .place-card img { width:100%; height:250px; object-fit:cover; border-radius:10px 10px 0 0; }
     .card-body { background:#fff; }
+
+    /* Card Emergencias con efecto moderno */
+    .emergency-card { 
+      margin:30px auto; max-width:500px; text-align:center; border-radius:15px; 
+      background: linear-gradient(135deg,#ff6b6b,#f06595); color:#fff; 
+      padding:30px; box-shadow:0 10px 30px rgba(0,0,0,0.3); transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .emergency-card:hover { transform:translateY(-10px) scale(1.02); box-shadow:0 15px 35px rgba(0,0,0,0.4); }
+    .emergency-card h4 { font-size:1.8rem; margin-bottom:20px; }
+    .emergency-card p { font-size:1.1rem; margin:8px 0; }
+
     .pagination-controls { text-align:center; margin:15px 0; }
     .btn-page { margin:0 5px; }
   </style>
@@ -50,6 +61,7 @@
     <button onclick="enterSite()">Descubrir Mendoza</button>
   </div>
 
+  <!-- Lugares Turísticos -->
   <div class="container info-section" id="info">
     <div class="fixed-title">Atracciones Turísticas de Mendoza</div>
     <div class="row" id="places"></div>
@@ -60,7 +72,18 @@
     </div>
   </div>
 
+  <!-- Card de Emergencias -->
+  <div class="info-section" id="services">
+    <div class="emergency-card">
+      <h4>Teléfonos de Emergencia</h4>
+      <p><strong>Policía de Mendoza:</strong> 911</p>
+      <p><strong>Hospital/Salud:</strong> +54 261 333444</p>
+      <p><strong>Bomberos:</strong> +54 261 100</p>
+    </div>
+  </div>
+
   <script>
+    // Pantalla de carga
     let progress=0;
     const progressBar=document.getElementById('progress');
     const loadingScreen=document.getElementById('loadingScreen');
@@ -75,23 +98,27 @@
       }
     },60);
 
+    // Entrar al sitio
     function enterSite(){
       welcomeScreen.style.opacity=0;
       setTimeout(()=>{
         welcomeScreen.style.display='none';
         document.getElementById('info').style.display='block';
+        document.getElementById('services').style.display='block';
       },500);
     }
 
+    // Lugares turísticos
     const lugares=[
-      {nombre:'Cacheuta', img:'cacheuta.png', maps:'https://www.google.com/maps/place/Cacheuta,+Las+Heras,+Mendoza,+Argentina', restaurantes:['Restaurante Termas Cacheuta','Parrilla El Mirador'], negocios:['Artesanías Cacheuta','Mini Mercado Cacheuta','Spa Termal','Alquiler de Bicicletas'], atracciones:['Termas de Cacheuta','Puente Colgante'], actividades:[{nombre:'Rafting Mendoza',telefono:'+54 261 555111 (Juan)'},{nombre:'Cabalgatas Andes',telefono:'+54 261 444222 (Laura)'}], referencias:['Policía: +54 261 911','Hospital: +54 261 333444','Emergencias: +54 261 100']},
-      {nombre:'Penitentes', img:'penitentes.png', maps:'https://www.google.com/maps/place/Los+Penitentes,+Uspallata,+Mendoza,+Argentina', restaurantes:['Restaurante Los Penitentes','La Cumbre'], negocios:['Alquiler de Ski','Souvenirs Andes','Mini Mercado','Refugio de Montaña'], atracciones:['Centro de Ski Penitentes'], actividades:[{nombre:'Ski Adventure',telefono:'+54 261 555333 (Pedro)'},{nombre:'Snowboard Tour',telefono:'+54 261 444777 (Sofía)'}], referencias:['Gendarmería: +54 261 922','Centro Médico: +54 261 333888','Emergencias: +54 261 100']},
-      {nombre:'Camino del Vino', img:'caminovino.png', maps:'https://www.google.com/maps/place/Camino+del+Vino,+Mendoza,+Argentina', restaurantes:['Bodega Los Toneles','Casa de Campo Restaurant'], negocios:['Bodega Norton','Bodega Salentein','Tienda Gourmet','Tour de Vinos'], atracciones:['Visita Bodegas','Degustación de Vinos'], actividades:[{nombre:'Wine Tour',telefono:'+54 261 555444 (María)'},{nombre:'Cata Especial',telefono:'+54 261 444555 (Carlos)'}], referencias:['Turismo Vinos: +54 261 999000','Emergencias: +54 261 100']},
-      {nombre:'Potrerillos', img:'potre.png', maps:'https://www.google.com/maps/place/Potrerillos,+Mendoza,+Argentina', restaurantes:['Rincón de Potrerillos','La Juanita'], negocios:['Camping Potrerillos','Tienda Outdoor','Kayak Rentals','Proveeduría Lago'], atracciones:['Dique Potrerillos','Lago Potrerillos'], actividades:[{nombre:'Kayak Aventura',telefono:'+54 261 555888 (Marcos)'},{nombre:'Trekking Montaña',telefono:'+54 261 444999 (Lucía)'}], referencias:['Turismo Potrerillos: +54 261 498000','Emergencias: +54 261 100']},
-      {nombre:'Las Leñas', img:'leñas.png', maps:'https://www.google.com/maps/place/Las+Leñas,+Malargüe,+Mendoza,+Argentina', restaurantes:['Restaurante Piscis','Snow Bar Las Leñas'], negocios:['Alquiler de Equipos Ski','Boutique Las Leñas','Supermercado','Souvenir Shop'], atracciones:['Centro de Ski Las Leñas'], actividades:[{nombre:'Ski Pro',telefono:'+54 261 555222 (Diego)'},{nombre:'Clases de Snowboard',telefono:'+54 261 333777 (Camila)'}], referencias:['Rescate Montaña: +54 261 911000','Emergencias: +54 261 100']},
-      {nombre:'Bodegas Maipú/Luján', img:'potre1.png', maps:'https://www.google.com/maps/place/Bodegas+Maipú,+Mendoza,+Argentina', restaurantes:['Bodega Familia Zuccardi','La Azul Restaurante'], negocios:['Bodega Trapiche','Bodega Norton','Tienda de Vinos','Tour Gastronómico'], atracciones:['Visita Bodegas','Degustación de Vinos'], actividades:[{nombre:'Wine Experience',telefono:'+54 261 555666 (Sofía)'},{nombre:'Tour Gastronómico',telefono:'+54 261 444666 (Marcos)'}], referencias:['Emergencias: +54 261 100']}
+      {nombre:'Cacheuta', img:'cacheuta.png', maps:'https://www.google.com/maps/place/Cacheuta,+Las+Heras,+Mendoza,+Argentina', restaurantes:['Restaurante Termas Cacheuta','Parrilla El Mirador'], negocios:['Artesanías Cacheuta','Mini Mercado Cacheuta','Spa Termal','Alquiler de Bicicletas'], atracciones:['Termas de Cacheuta','Puente Colgante'], actividades:[{nombre:'Rafting Mendoza',telefono:'+54 261 555111 (Juan)'},{nombre:'Cabalgatas Andes',telefono:'+54 261 444222 (Laura)'}], referencias:['911 Policía de Mendoza','Hospital: +54 261 333444']},
+      {nombre:'Penitentes', img:'penitentes.png', maps:'https://www.google.com/maps/place/Los+Penitentes,+Uspallata,+Mendoza,+Argentina', restaurantes:['Restaurante Los Penitentes','La Cumbre'], negocios:['Alquiler de Ski','Souvenirs Andes','Mini Mercado','Refugio de Montaña'], atracciones:['Centro de Ski Penitentes'], actividades:[{nombre:'Ski Adventure',telefono:'+54 261 555333 (Pedro)'},{nombre:'Snowboard Tour',telefono:'+54 261 444777 (Sofía)'}], referencias:['911 Policía de Mendoza','Centro Médico: +54 261 333888']},
+      {nombre:'Camino del Vino', img:'caminovino.png', maps:'https://www.google.com/maps/place/Camino+del+Vino,+Mendoza,+Argentina', restaurantes:['Bodega Los Toneles','Casa de Campo Restaurant'], negocios:['Bodega Norton','Bodega Salentein','Tienda Gourmet','Tour de Vinos'], atracciones:['Visita Bodegas','Degustación de Vinos'], actividades:[{nombre:'Wine Tour',telefono:'+54 261 555444 (María)'},{nombre:'Cata Especial',telefono:'+54 261 444555 (Carlos)'}], referencias:['911 Policía de Mendoza','Turismo Vinos: +54 261 999000']},
+      {nombre:'Potrerillos', img:'potre.png', maps:'https://www.google.com/maps/place/Potrerillos,+Mendoza,+Argentina', restaurantes:['Rincón de Potrerillos','La Juanita'], negocios:['Camping Potrerillos','Tienda Outdoor','Kayak Rentals','Proveeduría Lago'], atracciones:['Dique Potrerillos','Lago Potrerillos'], actividades:[{nombre:'Kayak Aventura',telefono:'+54 261 555888 (Marcos)'},{nombre:'Trekking Montaña',telefono:'+54 261 444999 (Lucía)'}], referencias:['911 Policía de Mendoza','Turismo Potrerillos: +54 261 498000']},
+      {nombre:'Las Leñas', img:'leñas.png', maps:'https://www.google.com/maps/place/Las+Leñas,+Malargüe,+Mendoza,+Argentina', restaurantes:['Restaurante Piscis','Snow Bar Las Leñas'], negocios:['Alquiler de Equipos Ski','Boutique Las Leñas','Supermercado','Souvenir Shop'], atracciones:['Centro de Ski Las Leñas'], actividades:[{nombre:'Ski Pro',telefono:'+54 261 555222 (Diego)'},{nombre:'Clases de Snowboard',telefono:'+54 261 333777 (Camila)'}], referencias:['911 Policía de Mendoza']},
+      {nombre:'Bodegas Maipú/Luján', img:'potre1.png', maps:'https://www.google.com/maps/place/Bodegas+Maipú,+Mendoza,+Argentina', restaurantes:['Bodega Familia Zuccardi','La Azul Restaurante'], negocios:['Bodega Trapiche','Bodega Norton','Tienda de Vinos','Tour Gastronómico'], atracciones:['Visita Bodegas','Degustación de Vinos'], actividades:[{nombre:'Wine Experience',telefono:'+54 261 555666 (Sofía)'},{nombre:'Tour Gastronómico',telefono:'+54 261 444666 (Marcos)'}], referencias:['911 Policía de Mendoza']}
     ];
 
+    // Paginación
     const placesContainer=document.getElementById('places');
     const prevBtn=document.getElementById('prevBtn');
     const nextBtn=document.getElementById('nextBtn');
