@@ -3,212 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Atracciones Turísticas de Mendoza</title>
+  <title>Descubrí Mendoza</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
   <style>
-    body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: #d0f0fd; }
-    .welcome-screen {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
-      color: #ff6f61; text-align: center; z-index: 9999;
-      animation: fadeIn 1s ease-in-out;
-    }
-    .welcome-screen h1 {
-      font-family: 'Dancing Script', cursive;
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      animation: zoomIn 1s ease-in-out;
-    }
-    .welcome-screen button {
-      font-size: 1.2rem;
-      padding: 10px 20px;
-      border: none; border-radius: 8px;
-      background-color: #198754; color: #fff;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-    .welcome-screen button:hover { transform: scale(1.1); }
-    @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-    @keyframes zoomIn { from {transform:scale(0.8);} to {transform:scale(1);} }
-
-    .qr-section { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; padding: 20px 10px; }
-    #qrcode { margin: 20px 0; }
-    .toggle-btn { background-color: #198754; color: #fff; border-radius: 8px; padding: 10px 20px; font-size: 18px; border: none; margin-bottom: 10px; }
-    .info-section { display: none; margin-top: 10px; }
-    .place-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; }
-    .place-card { margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden; }
-    .card-body { background: #fff; }
-    .pagination-controls { text-align: center; margin: 15px 0; }
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; margin:0; background: #f0e4d7; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; text-align:center; }
+    h1 { font-size: 3rem; color: #00796b; margin-bottom: 10px; }
+    p { font-size: 1.5rem; color: #555; margin-bottom: 30px; }
+    #qrcode { margin: 0 auto; }
   </style>
 </head>
 <body>
+  <h1>Descubrí Mendoza</h1>
+  <p>Escaneá el QR y explorá todas las atracciones turísticas</p>
+  <div id="qrcode"></div>
 
-  <!-- Pantalla de bienvenida -->
-  <div class="welcome-screen" id="welcomeScreen">
-    <h1>¡Bienvenido a Mendoza, tierra de aventuras y sabores!</h1>
-    <button onclick="enterSite()">Descubrir Mendoza</button>
-  </div>
-
-  <!-- Contenido principal -->
-  <div class="container-fluid qr-section text-center" id="mainContent">
-    <h1 class="text-primary mb-3">Descubrí Mendoza</h1>
-    <div id="qrcode"></div>
-    <button class="toggle-btn" onclick="toggleInfo()">Ver Aquí</button>
-  </div>
-
-  <div class="container info-section" id="info">
-    <h2 class="text-center text-success mb-4">Atracciones Turísticas de Mendoza</h2>
-    <div class="row" id="places"></div>
-    <div class="pagination-controls">
-      <button id="prevBtn" class="btn btn-outline-primary" disabled>Anterior</button>
-      <span id="pageIndicator" class="mx-2"></span>
-      <button id="nextBtn" class="btn btn-outline-primary">Siguiente</button>
-    </div>
-  </div>
-
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
   <script>
     new QRCode(document.getElementById("qrcode"), {
-      text: "https://sahumada256-bot.github.io/mendoza-turismo/",
-      width: 180,
-      height: 180
+      text: "https://tuusuario.github.io/mendoza-turismo/info.html",
+      width: 250,
+      height: 250
     });
-
-    function toggleInfo() {
-      const section = document.getElementById('info');
-      section.style.display = section.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function enterSite() {
-      const welcome = document.getElementById('welcomeScreen');
-      welcome.style.opacity = 0;
-      setTimeout(() => { welcome.style.display = 'none'; }, 500);
-    }
-
-    const lugares = [
-      {
-        nombre: 'Cacheuta',
-        img: 'https://cdn.pixabay.com/photo/2016/11/18/16/05/thermal-1839283_640.jpg',
-        maps: 'https://goo.gl/maps/9W3aNFevrrw7Yb6x8',
-        restaurantes: ['Restaurante Termas Cacheuta', 'Parrilla El Mirador'],
-        negocios: ['Artesanías Cacheuta', 'Mini Mercado Cacheuta', 'Spa Termal', 'Alquiler de Bicicletas'],
-        atracciones: ['Termas de Cacheuta', 'Puente Colgante'],
-        actividades: [{nombre: 'Rafting Mendoza', telefono: '+54 261 555111 (Juan)'}, {nombre: 'Cabalgatas Andes', telefono: '+54 261 444222 (Laura)'}],
-        referencias: ['Policía: +54 261 911', 'Hospital: +54 261 333444']
-      },
-      {
-        nombre: 'Penitentes',
-        img: 'https://upload.wikimedia.org/wikipedia/commons/1/1e/Los_Penitentes_Mendoza_Argentina.jpg',
-        maps: 'https://goo.gl/maps/ZF9K7N9tH6j1R9qE9',
-        restaurantes: ['Restaurante Los Penitentes', 'La Cumbre'],
-        negocios: ['Alquiler de Ski', 'Souvenirs Andes', 'Mini Mercado', 'Refugio de Montaña'],
-        atracciones: ['Centro de Ski Penitentes'],
-        actividades: [{nombre: 'Ski Adventure', telefono: '+54 261 555333 (Pedro)'}, {nombre: 'Snowboard Tour', telefono: '+54 261 444777 (Sofía)'}],
-        referencias: ['Gendarmería: +54 261 922', 'Centro Médico: +54 261 333888']
-      },
-      {
-        nombre: 'Camino del Vino',
-        img: 'https://images.unsplash.com/photo-1589395595558-2d24e94d27b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-        maps: 'https://goo.gl/maps/xyz123',
-        restaurantes: ['Bodega Los Toneles', 'Casa de Campo Restaurant'],
-        negocios: ['Bodega Norton', 'Bodega Salentein', 'Tienda Gourmet', 'Tour de Vinos'],
-        atracciones: ['Visita Bodegas', 'Degustación de Vinos'],
-        actividades: [{nombre: 'Wine Tour', telefono: '+54 261 555444 (María)'}, {nombre: 'Cata Especial', telefono: '+54 261 444555 (Carlos)'}],
-        referencias: ['Turismo Vinos: +54 261 999000']
-      },
-      {
-        nombre: 'Potrerillos',
-        img: 'https://images.unsplash.com/photo-1619330669866-508f7282c3a4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-        maps: 'https://goo.gl/maps/Kd6DAGjNsvL2',
-        restaurantes: ['Rincón de Potrerillos', 'La Juanita'],
-        negocios: ['Camping Potrerillos', 'Tienda Outdoor', 'Kayak Rentals', 'Proveeduría Lago'],
-        atracciones: ['Dique Potrerillos', 'Lago Potrerillos'],
-        actividades: [{nombre: 'Kayak Aventura', telefono: '+54 261 555888 (Marcos)'}, {nombre: 'Trekking Montaña', telefono: '+54 261 444999 (Lucía)'}],
-        referencias: ['Turismo Potrerillos: +54 261 498000']
-      },
-      {
-        nombre: 'Las Leñas',
-        img: 'https://images.unsplash.com/photo-1617196037872-0b7db1b81276?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-        maps: 'https://goo.gl/maps/b3Zb2Et7BMcY8sZg7',
-        restaurantes: ['Restaurante Piscis', 'Snow Bar Las Leñas'],
-        negocios: ['Alquiler de Equipos Ski', 'Boutique Las Leñas', 'Supermercado', 'Souvenir Shop'],
-        atracciones: ['Centro de Ski Las Leñas'],
-        actividades: [{nombre: 'Ski Pro', telefono: '+54 261 555222 (Diego)'}, {nombre: 'Clases de Snowboard', telefono: '+54 261 333777 (Camila)'}],
-        referencias: ['Rescate Montaña: +54 261 911000']
-      },
-      {
-        nombre: 'Bodegas Maipú/Luján',
-        img: 'https://images.unsplash.com/photo-1584551885914-21e91d5f17f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-        maps: 'https://goo.gl/maps/maipu123',
-        restaurantes: ['Bodega Familia Zuccardi', 'La Azul Restaurante'],
-        negocios: ['Bodega Trapiche', 'Bodega Norton', 'Tienda de Vinos', 'Tour Gastronómico'],
-        atracciones: ['Visita Bodegas', 'Degustaciones'],
-        actividades: [{nombre: 'Wine Experience', telefono: '+54 261 555666 (Ana)'}, {nombre: 'Cata Premium', telefono: '+54 261 444333 (Javier)'}],
-        referencias: ['Turismo Maipú: +54 261 998888']
-      },
-      {
-        nombre: 'Parque San Martín',
-        img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Parque_San_Mart%C3%ADn_Mendoza.jpg/800px-Parque_San_Mart%C3%ADn_Mendoza.jpg',
-        maps: 'https://goo.gl/maps/parquesanmartin',
-        restaurantes: ['Restaurante La Bodega', 'Café del Lago'],
-        negocios: ['Souvenir Shop', 'Alquiler Bicicletas', 'Mini Mercado', 'Tienda Artesanal'],
-        atracciones: ['Jardín Zoológico', 'Lago', 'Teleférico'],
-        actividades: [{nombre: 'Paseo en Bicicleta', telefono: '+54 261 555777 (José)'}, {nombre: 'Picnic Familiar', telefono: '+54 261 444666 (Sofía)'}],
-        referencias: ['Policía: +54 261 911', 'Emergencias: +54 261 333222']
-      }
-    ];
-
-    const placesContainer = document.getElementById('places');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const pageIndicator = document.getElementById('pageIndicator');
-
-    let currentPage = 1;
-    const itemsPerPage = 2;
-    const totalPages = Math.ceil(lugares.length / itemsPerPage);
-
-    function renderPlaces() {
-      placesContainer.innerHTML = '';
-      const start = (currentPage - 1) * itemsPerPage;
-      const end = start + itemsPerPage;
-      const paginatedPlaces = lugares.slice(start, end);
-
-      paginatedPlaces.forEach(lugar => {
-        const card = document.createElement('div');
-        card.className = 'col-md-6 place-card';
-        card.innerHTML = `
-          <div class="card">
-            <img src="${lugar.img}" alt="${lugar.nombre}">
-            <div class="card-body">
-              <h4>${lugar.nombre}</h4>
-              <p><a href="${lugar.maps}" target="_blank" class="btn btn-outline-success btn-sm">Cómo llegar</a></p>
-              <p><strong>Restaurantes:</strong> ${lugar.restaurantes.join(', ')}</p>
-              <p><strong>Negocios relevantes:</strong> ${lugar.negocios.join(', ')}</p>
-              <p><strong>Atracciones:</strong> ${lugar.atracciones.join(', ')}</p>
-              <p><strong>Actividades:</strong></p>
-              <ul>${lugar.actividades.map(act => `<li>${act.nombre} - Tel: ${act.telefono}</li>`).join('')}</ul>
-              <p><strong>Teléfonos de referencia:</strong> ${lugar.referencias.join(' | ')}</p>
-            </div>
-          </div>`;
-        placesContainer.appendChild(card);
-      });
-
-      pageIndicator.textContent = `Página ${currentPage} de ${totalPages}`;
-      prevBtn.disabled = currentPage === 1;
-      nextBtn.disabled = currentPage === totalPages;
-    }
-
-    prevBtn.addEventListener('click', () => {
-      if (currentPage > 1) { currentPage--; renderPlaces(); }
-    });
-
-    nextBtn.addEventListener('click', () => {
-      if (currentPage < totalPages) { currentPage++; renderPlaces(); }
-    });
-
-    renderPlaces();
   </script>
 </body>
 </html>
