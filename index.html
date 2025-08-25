@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atracciones Turísticas de Mendoza</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <style>
+    body { 
+      background: #d0f0fd; /* azul pastel suave, profesional */ 
+      font-family: 'Segoe UI', Tahoma, sans-serif; 
+    }
+    .qr-section { 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      min-height: 80vh; 
+      padding-bottom: 20px; 
+    }
+    #qrcode { margin: 20px 0; }
+    .toggle-btn { 
+      background-color: #198754; 
+      color: #fff; 
+      border-radius: 8px; 
+      padding: 10px 20px; 
+      font-size: 18px; 
+      border: none; 
+      margin-bottom: 10px; 
+    }
+    .info-section { display: none; margin-top: 10px; }
+    .place-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; }
+    .place-card { margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden; }
+    .card-body { background: #fff; }
+    .pagination-controls { text-align: center; margin: 15px 0; }
+  </style>
+</head>
+<body>
+  <div class="container-fluid qr-section text-center">
+    <h1 class="text-primary mb-3">Descubrí Mendoza</h1>
+    <div id="qrcode"></div>
+    <button class="toggle-btn" onclick="toggleInfo()">Ver Aquí</button>
+  </div>
+
+  <div class="container info-section" id="info">
+    <h2 class="text-center text-success mb-4">Atracciones Turísticas de Mendoza</h2>
+    <div class="row" id="places"></div>
+    <div class="pagination-controls">
+      <button id="prevBtn" class="btn btn-outline-primary" disabled>Anterior</button>
+      <span id="pageIndicator" class="mx-2"></span>
+      <button id="nextBtn" class="btn btn-outline-primary">Siguiente</button>
+    </div>
+  </div>
+
+  <script>
+    // Generar QR
+    new QRCode(document.getElementById("qrcode"), {
+      text: window.location.href,
+      width: 180,
+      height: 180
+    });
+
+    function toggleInfo() {
+      const section = document.getElementById('info');
+      section.style.display = section.style.display === 'block' ? 'none' : 'block';
+    }
+
+    const lugares = [
+      {
+        nombre: 'Cacheuta',
+        img: 'https://upload.wikimedia.org/wikipedia/commons/1/10/Termas_Cacheuta_Mendoza.jpg',
+        maps: 'https://goo.gl/maps/9W3aNFevrrw7Yb6x8',
+        restaurantes: ['Restaurante Termas Cacheuta', 'Parrilla El Mirador'],
+        negocios: ['Artesanías Cacheuta', 'Mini Mercado Cacheuta', 'Spa Termal', 'Alquiler de Bicicletas'],
+        atracciones: ['Termas de Cacheuta', 'Puente Colgante'],
+        actividades: [{nombre: 'Rafting Mendoza', telefono: '+54 261 555111 (Juan)'}, {nombre: 'Cabalgatas Andes', telefono: '+54 261 444222 (Laura)'}],
+        referencias: ['Policía: +54 261 911', 'Hospital: +54 261 333444']
+      },
+      {
+        nombre: 'Penitentes',
+        img: 'https://upload.wikimedia.org/wikipedia/commons/4/49/Los_Penitentes.jpg',
+        maps: 'https://goo.gl/maps/ZF9K7N9tH6j1R9qE9',
+        restaurantes: ['Restaurante Los Penitentes', 'La Cumbre'],
+        negocios: ['Alquiler de Ski', 'Souvenirs Andes', 'Mini Mercado', 'Refugio de Montaña'],
+        atracciones: ['Centro de Ski Penitentes'],
+        actividades: [{nombre: 'Ski Adventure', telefono: '+54 261 555333 (Pedro)'}, {nombre: 'Snowboard Tour', telefono: '+54 261 444777 (Sofía)'}],
+        referencias: ['Gendarmería: +54 261 922', 'Centro Médico: +54 261 333888']
+      },
+      {
+        nombre: 'Camino del Vino',
+        img: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Vinedos_Mendoza.jpg',
+        maps: 'https://goo.gl/maps/xyz123',
+        restaurantes: ['Bodega Los Toneles', 'Casa de Campo Restaurant'],
+        negocios: ['Bodega Norton', 'Bodega Salentein', 'Tienda Gourmet', 'Tour de Vinos'],
+        atracciones: ['Visita Bodegas', 'Degustación de Vinos'],
+        actividades: [{nombre: 'Wine Tour', telefono: '+54 261 555444 (María)'}, {nombre: 'Cata Especial', telefono: '+54 261 444555 (Carlos)'}],
+        referencias: ['Turismo Vinos: +54 261 999000']
+      },
+      {
+        nombre: 'Potrerillos',
+        img: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Dique_de_Potrerillos.jpg',
+        maps: 'https://goo.gl/maps/Kd6DAGjNsvL2',
+        restaurantes: ['Rincón de Potrerillos', 'La Juanita'],
+        negocios: ['Camping Potrerillos', 'Tienda Outdoor', 'Kayak Rentals', 'Proveeduría Lago'],
+        atracciones: ['Dique Potrerillos', 'Lago Potrerillos'],
+        actividades: [{nombre: 'Kayak Aventura', telefono: '+54 261 555888 (Marcos)'}, {nombre: 'Trekking Montaña', telefono: '+54 261 444999 (Lucía)'}],
+        referencias: ['Turismo Potrerillos: +54 261 498000']
+      },
+      {
+        nombre: 'Las Leñas',
+        img: 'https://upload.wikimedia.org/wikipedia/commons/9/97/Las_Le%C3%B1as.jpg',
+        maps: 'https://goo.gl/maps/b3Zb2Et7BMcY8sZg7',
+        restaurantes: ['Restaurante Piscis', 'Snow Bar Las Leñas'],
+        negocios: ['Alquiler de Equipos Ski', 'Boutique Las Leñas', 'Supermercado', 'Souvenir Shop'],
+        atracciones: ['Centro de Ski Las Leñas'],
+        actividades: [{nombre: 'Ski Pro', telefono: '+54 261 555222 (Diego)'}, {nombre: 'Clases de Snowboard', telefono: '+54 261 333777 (Camila)'}],
+        referencias: ['Rescate Montaña: +54 261 911000']
+      },
+      {
+        nombre: 'Bodegas de Maipú/Luján',
+        img: 'https://upload.wikimedia.org/wikipedia/commons/7/7f/Bodega_Norton_Mendoza.jpg',
+        maps: 'https://goo.gl/maps/maipu123',
+        restaurantes: ['Bodega Familia Zuccardi', 'La Azul Restaurante'],
+        negocios: ['Bodega Trapiche', 'Bodega Norton', 'Tienda de Vinos', 'Tour Gastronómico'],
+        atracciones: ['Visita Bodegas', 'Degustaciones'],
+        actividades: [{nombre: 'Wine Experience', telefono: '+54 261 555666 (Ana)'}, {nombre: 'Cata Premium', telefono: '+54 261 444333 (Javier)'}],
+        referencias: ['Oficina Turismo: +54 261 777888']
+      },
+      {
+        nombre: 'Parque San Martín',
+        img: 'https://upload.wikimedia.org/wikipedia/commons/3/36/Parque_San_Mart%C3%ADn_Mendoza.jpg',
+        maps: 'https://goo.gl/maps/sanmartin123',
+        restaurantes: ['Café del Parque', 'Restaurante Mirador'],
+        negocios: ['Alquiler de Bicis', 'Kiosco de Souvenirs', 'Centro Deportivo', 'Jardín Botánico'],
+        atracciones: ['Estadio Arena Mendoza', 'Parque Zoológico'],
+        actividades: [{nombre: 'Paseo en Bicicleta', telefono: '+54 261 555777 (Laura)'}, {nombre: 'Picnic Familiar', telefono: '+54 261 444666 (Pedro)'}],
+        referencias: ['Guardia del Parque: +54 261 999111']
+      }
+    ];
+
+    const placesContainer = document.getElementById('places');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageIndicator = document.getElementById('pageIndicator');
+
+    let currentPage = 1;
+    const itemsPerPage = 2;
+    const totalPages = Math.ceil(lugares.length / itemsPerPage);
+
+    function renderPlaces() {
+      placesContainer.innerHTML = '';
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const paginatedPlaces = lugares.slice(start, end);
+
+      paginatedPlaces.forEach(lugar => {
+        const card = document.createElement('div');
+        card.className = 'col-md-6 place-card';
+        card.innerHTML = `
+          <div class="card">
+            <img src="${lugar.img}" alt="${lugar.nombre}">
+            <div class="card-body">
+              <h4>${lugar.nombre}</h4>
+              <p><a href="${lugar.maps}" target="_blank" class="btn btn-outline-success btn-sm">Cómo llegar</a></p>
+              <p><strong>Restaurantes:</strong> ${lugar.restaurantes.join(', ')}</p>
+              <p><strong>Negocios relevantes:</strong> ${lugar.negocios.join(', ')}</p>
+              <p><strong>Atracciones:</strong> ${lugar.atracciones.join(', ')}</p>
+              <p><strong>Actividades:</strong></p>
+              <ul>${lugar.actividades.map(act => `<li>${act.nombre} - Tel: ${act.telefono}</li>`).join('')}</ul>
+              <p><strong>Teléfonos de referencia:</strong> ${lugar.referencias.join(' | ')}</p>
+            </div>
+          </div>`;
+        placesContainer.appendChild(card);
+      });
+
+      pageIndicator.textContent = `Página ${currentPage} de ${totalPages}`;
+      prevBtn.disabled = currentPage === 1;
+      nextBtn.disabled = currentPage === totalPages;
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) { currentPage--; renderPlaces(); }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < totalPages) { currentPage++; renderPlaces(); }
+    });
+
+    renderPlaces();
+  </script>
+</body>
+</html>
